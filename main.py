@@ -5,14 +5,14 @@ Documentation
 See also https://www.python-boilerplate.com/flask
 """
 import os
-
-from flask import Flask, jsonify, request, g
-from flask_cors import CORS
-from logzero import logger
-from time import time
-import traceback
 import http
+import traceback
+from time import time
+from logzero import logger
+from flask_cors import CORS
 from datetime import datetime
+from flask import Flask, request, g
+from controller import controller_blueprint
 
 
 def create_app(config=None):
@@ -25,6 +25,7 @@ def create_app(config=None):
     # Setup cors headers to allow all domains
     # https://flask-cors.readthedocs.io/en/latest/
     CORS(app)
+    app.register_blueprint(controller_blueprint, url_prefix='')
 
     @app.before_request
     def before_request():
@@ -33,7 +34,7 @@ def create_app(config=None):
         """
 
         logger.debug('Request [{request_method}] : {request_url}'
-                      .format(request_method=request.method, request_url=request.base_url))
+                     .format(request_method=request.method, request_url=request.base_url))
         g.start_time = time()
 
     @app.after_request
@@ -62,7 +63,7 @@ def create_app(config=None):
     # Definition of the routes. Put them into their own file. See also
     # Flask Blueprints: http://flask.pocoo.org/docs/latest/blueprints
     @app.route("/")
-    def hello_world():
+    def main():
         return "Boiler-Plate Python Application"
 
     return app
