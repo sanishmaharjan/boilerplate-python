@@ -11,6 +11,7 @@ from time import time
 from logzero import logger
 from flask_cors import CORS
 from datetime import datetime
+from dotenv import load_dotenv
 from flask import Flask, request, g
 from controller import controller_blueprint
 
@@ -70,6 +71,7 @@ def create_app(config=None):
 
 
 if __name__ == "__main__":
+    load_dotenv(verbose=True)
     port = int(os.environ.get("PORT", 8000))
     app = create_app()
     app.run(host="0.0.0.0", port=port)

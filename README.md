@@ -14,4 +14,14 @@ python3 -m venv venv
 . venv/bin/activate
 ```
 
+## Install dependancies:
+```bash
+pip3 install -r requirements.txt
+```
+
+## Run application
+### 1. Install pip3 if not already install in your system
+```bash
+python3 main.py
+```
 
