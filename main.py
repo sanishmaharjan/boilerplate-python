@@ -4,24 +4,31 @@ Documentation
 
 See also https://www.python-boilerplate.com/flask
 """
-import os
+import sys
 import http
+import config
 import traceback
 from time import time
 from logzero import logger
 from flask_cors import CORS
 from datetime import datetime
-from dotenv import load_dotenv
 from flask import Flask, request, g
 from controller import controller_blueprint
 
 
-def create_app(config=None):
+def create_app(environment='dev'):
     app = Flask(__name__)
 
     # See http://flask.pocoo.org/docs/latest/config/
-    app.config.update(dict(DEBUG=True))
-    app.config.update(config or {})
+    if environment == 'dev':
+        app.config.from_object(config.DevelopmentConfig)
+    elif environment == 'test':
+        app.config.from_object(config.TestConfig)
+    elif environment == 'prod':
+        app.config.from_object(config.ProductionConfig)
+
+    # app.config.update(dict(DEBUG=True))
+    # app.config.update({'DEBUG': True})
 
     # Setup cors headers to allow all domains
     # https://flask-cors.readthedocs.io/en/latest/
@@ -71,7 +78,5 @@ def create_app(config=None):
 
 
 if __name__ == "__main__":
-    load_dotenv(verbose=True)
-    port = int(os.environ.get("PORT", 8000))
-    app = create_app()
-    app.run(host="0.0.0.0", port=port)
+    app = create_app(sys.argv[1] if len(sys.argv) > 1 else 'dev')
+    app.run(host=app.config.get('HOST'), port=app.config.get('PORT'))
