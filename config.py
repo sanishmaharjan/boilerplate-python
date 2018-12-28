@@ -1,4 +1,5 @@
 import os
+import logging
 from dotenv import load_dotenv
 
 
@@ -16,15 +17,15 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    LOG_LEVEL = 'Debug'
+    LOG_LEVEL = logging.DEBUG
 
 
 class TestConfig(Config):
     DEBUG = True
     TESTING = True
-    LOG_LEVEL = 'Debug'
+    LOG_LEVEL = logging.DEBUG
 
 
 class ProductionConfig(Config):
     DEBUG = False
-    LOG_LEVEL = 'Error'
+    LOG_LEVEL = logging.ERROR

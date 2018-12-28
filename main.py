@@ -7,14 +7,14 @@ See also https://www.python-boilerplate.com/flask
 import sys
 import http
 import config
+import logging
 import traceback
 from time import time
-from logzero import logger
 from flask_cors import CORS
-from datetime import datetime
 from flask import Flask, request, g
-from controller import controller_blueprint
 from controller.api import api_blueprint
+from controller import controller_blueprint
+from logzero import logger, loglevel, logfile, formatter
 
 
 def create_app(environment='dev'):
@@ -34,8 +34,13 @@ def create_app(environment='dev'):
     # Setup cors headers to allow all domains
     # https://flask-cors.readthedocs.io/en/latest/
     CORS(app)
-    app.register_blueprint(controller_blueprint, url_prefix='/temp')
+    app.register_blueprint(controller_blueprint, url_prefix='')
     app.register_blueprint(api_blueprint, url_prefix='/api')
+
+    # Logging config
+    loglevel(app.config.get('LOG_LEVEL'))
+    formatter(logging.Formatter('[%(asctime)s] - %(levelname)s: %(message)s'))
+    logfile(app.config.get('LOG_PATH'), maxBytes=1000000, backupCount=3, loglevel=app.config.get('LOG_LEVEL'))
 
     @app.before_request
     def before_request():
@@ -60,13 +65,9 @@ def create_app(environment='dev'):
 
     @app.errorhandler(Exception)
     def exceptions(error):
-        ts = datetime.now().strftime('[%Y-%b-%d %H:%M]')
-        tb = traceback.print_stack(limit=5)
-        path = "?".join(
-            [request.path,
-             request.query_string]) if request.query_string else request.path
-        logger.error('%s %s %s %s %s 500 INTERNAL SERVER ERROR\n%s',
-                     ts, request.remote_addr, request.method, request.scheme, path, tb)
+        tb = traceback.format_exc(limit=5)
+        path = "?".join([request.path, request.query_string]) if request.query_string else request.path
+        logger.error('%s %s %s 500 INTERNAL SERVER ERROR \n %s', request.remote_addr, request.method, path, tb)
 
         return 'Internal Server Error', http.HTTPStatus.INTERNAL_SERVER_ERROR
 
