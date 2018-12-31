@@ -37,7 +37,9 @@ alembic revision -m "migration name"
 
 # Running Migration
 alembic upgrade head
+alembic upgrade +2
 
 # Downgrade Migration
 alembic downgrade [revision]
+alembic downgrade -2
 ```

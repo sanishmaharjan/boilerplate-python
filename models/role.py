@@ -5,7 +5,7 @@ from sqlalchemy import Column, String, Integer, Date
 from base_model import BaseModel
 
 
-class Actor(BaseModel):
+class Role(BaseModel):
     __tablename__ = 'roles'
 
     id = Column(Integer, primary_key=True)

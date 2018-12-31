@@ -1,9 +1,11 @@
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from flask import current_app
+from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine(current_app.config.get('DB_CONNECTION_STRING'))
+load_dotenv(verbose=True)
+engine = create_engine(os.environ.get('DB_CONNECTION_STRING'))
 Session = sessionmaker(bind=engine)
 
 BaseModel = declarative_base()
