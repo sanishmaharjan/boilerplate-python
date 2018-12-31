@@ -13,6 +13,7 @@ class Config:
 
     LOG_PATH = os.environ.get('LOG_PATH', '/var/log/python-app.log')
     SESSION_COOKIE_NAME = os.environ.get('SESSION_COOKIE_NAME', 'session_cookie')
+    DB_CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
 
 
 class DevelopmentConfig(Config):
@@ -24,6 +25,7 @@ class TestConfig(Config):
     DEBUG = True
     TESTING = True
     LOG_LEVEL = logging.DEBUG
+    DB_CONNECTION_STRING = os.environ.get('TEST_DB_CONNECTION_STRING')
 
 
 class ProductionConfig(Config):

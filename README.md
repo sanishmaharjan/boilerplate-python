@@ -25,3 +25,19 @@ pip3 install -r requirements.txt
 python3 main.py
 ```
 
+## Install Alembic
+```bash
+sudo apt-get install alembic
+```
+
+## Db Migration
+```bash
+# Create a Migration Script
+alembic revision -m "migration name"
+
+# Running Migration
+alembic upgrade head
+
+# Downgrade Migration
+alembic downgrade [revision]
+```
