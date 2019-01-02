@@ -13,3 +13,9 @@ class Role(BaseModel):
 
     def __init__(self, name):
         self.name = name
+
+    def __str__(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+        }

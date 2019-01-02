@@ -19,3 +19,12 @@ class ContactDetails(BaseModel):
         self.phone_number = phone_number
         self.address = address
         self.actor = actor
+
+    def __str__(self):
+        return {
+            'id': self.id,
+            'phone_number' : self.phone_number,
+            'address' : self.address,
+            'actor_id' : self.actor_id,
+            'actor' : self.actor
+        }

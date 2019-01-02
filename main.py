@@ -15,6 +15,7 @@ from flask import Flask, request, g
 from controller.api import api_blueprint
 from controller import controller_blueprint
 from logzero import logger, loglevel, logfile, formatter
+from utils.model_json_endoder import ModelJSONEncoder
 
 
 def create_app(environment='dev'):
@@ -34,6 +35,7 @@ def create_app(environment='dev'):
     # Setup cors headers to allow all domains
     # https://flask-cors.readthedocs.io/en/latest/
     CORS(app)
+    app.json_encoder = ModelJSONEncoder
     app.register_blueprint(controller_blueprint, url_prefix='')
     app.register_blueprint(api_blueprint, url_prefix='/api')
 

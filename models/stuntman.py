@@ -19,3 +19,12 @@ class Stuntman(BaseModel):
         self.name = name
         self.active = active
         self.actor = actor
+
+    def __str__(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'active': self.active,
+            'actor_id': self.actor_id,
+            'actor': self.actor,
+        }

@@ -23,3 +23,11 @@ class Movie(BaseModel):
     def __init__(self, title, release_date):
         self.title = title
         self.release_date = release_date
+
+    def __str__(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'release_date': self.release_date,
+            'actors': self.actors
+        }
